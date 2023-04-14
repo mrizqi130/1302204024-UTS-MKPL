@@ -1,35 +1,26 @@
-package lib;
-
 public class TaxFunction {
 
-	
-	/**
-	 * Fungsi untuk menghitung jumlah pajak penghasilan pegawai yang harus dibayarkan setahun.
-	 * 
-	 * Pajak dihitung sebagai 5% dari penghasilan bersih tahunan (gaji dan pemasukan bulanan lainnya dikalikan jumlah bulan bekerja dikurangi pemotongan) dikurangi penghasilan tidak kena pajak.
-	 * 
-	 * Jika pegawai belum menikah dan belum punya anak maka penghasilan tidak kena pajaknya adalah Rp 54.000.000.
-	 * Jika pegawai sudah menikah maka penghasilan tidak kena pajaknya ditambah sebesar Rp 4.500.000.
-	 * Jika pegawai sudah memiliki anak maka penghasilan tidak kena pajaknya ditambah sebesar Rp 4.500.000 per anak sampai anak ketiga.
-	 * 
-	 */
-	
-	
+	private final int NonTaxSingleZeroChild = 54000000;
+	private final int NonTaxMarried = 4500000;
+	private final int NonTaxEachChild = 4500000; 
+
 	public static int calculateTax(int monthlySalary, int otherMonthlyIncome, int numberOfMonthWorking, int deductible, boolean isMarried, int numberOfChildren) {
 		
 		int tax = 0;
 		
-		if (numberOfChildren > 3) {
-			numberOfChildren = 3;
-		}
-		
 		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
+			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (NonTaxMarried + nonTaxableByChild(numberOfChildren))));
 		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
+			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - NonTaxSingleZeroChild));
 		}
-		return tax;
-			 
+		return tax;		 
 	}
-	
+
+	private static int nonTaxableByChild(int numberOfChildren){
+		int ChildLimit = 3;
+		if (numberOfChildren > ChildLimit) {
+			return ChildLimit*NonTaxEachChild;
+		}
+		return numberOfChildren*NonTaxEachChild;
+	}
 }
