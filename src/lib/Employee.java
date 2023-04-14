@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Employee {
+	private enum Gender {
+		LAKILAKI,
+		PEREMPUAN
+	}
 
 	private String employeeId;
 	private String firstName;
@@ -19,7 +23,7 @@ public class Employee {
 	private int monthWorkingInYear;
 	
 	private boolean isForeigner;
-	private boolean gender; //true = Laki-laki, false = Perempuan
+	private Gender gender;
 	
 	private int monthlySalary;
 	private int otherMonthlyIncome;
